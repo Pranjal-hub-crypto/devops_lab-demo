@@ -5,7 +5,12 @@ pipeline {
             steps { checkout scm }
         }
         stage('Test') {
-            steps { sh 'python3 -m unittest discover -s .' }
+            steps {
+                sh '''
+                pip3 install flask --break-system-packages
+                python3 -m unittest discover -s .
+                '''
+            }
         }
         stage ('Build Docker Image') {
             steps { sh 'docker build -t devops-mini-app:latest .' }
